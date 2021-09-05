@@ -1,25 +1,31 @@
 package com.example.elearningspringproject.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "modules")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Module {
     @Id
     @GeneratedValue
-    Integer id;
+    private Integer id;
 
     @Column(name = "module_name", nullable = false)
-    String moduleName;
+    private String moduleName;
 
     @ManyToOne
     @JoinColumn(name = "idCourse")
-    public Course course;
+    private Course course;
 
     @OneToMany(mappedBy = "module")
     @JsonIgnoreProperties("module")
-    public List<Lesson> lessons;
+    private List<Lesson> lessons;
 }

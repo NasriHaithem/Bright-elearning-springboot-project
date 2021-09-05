@@ -1,9 +1,6 @@
 package com.example.elearningspringproject.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -13,14 +10,15 @@ import java.util.Objects;
 @Embeddable
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class CourseStudentCompositeKey implements Serializable {
     @Column(name = "student_id")
-    Integer studentId;
+    private Integer studentId;
 
     @Column(name = "course_id")
-    Integer courseId;
+    private Integer courseId;
 
     @Override
     public boolean equals(Object o) {

@@ -1,9 +1,8 @@
 package com.example.elearningspringproject.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,38 +18,58 @@ import java.util.List;
 @AllArgsConstructor
 public class Instructor extends User{
     @OneToMany(mappedBy = "instructor")
+    @JsonIgnoreProperties("instructor")
     List<Course> courses;
 
-    @Column(name = "is_enabled", nullable = false)
-    private Boolean isEnabled = true;
+    @Column(name = "is_enabled")
+    private Boolean isEnabled = true ;
 
-    @Column(name = "photo", nullable = false)
+    @Column(name = "photo")
     private String photo;
 
     @Column(name = "profession", nullable = false)
-    private Boolean profession = true;
+    private String profession;
 
     @Column(name = "origin")
     private String origin;
 
     @Column(name = "phone")
-    private Boolean phone = true;
+    private String phone;
 
     @Column(name = "brief_Introduction")
     private String brief_Introduction;
 
     @Column(name = "experience")
-    private Boolean experience = true;
+    private String experience;
 
     @Column(name = "education")
     private String education;
 
     @Column(name = "facebook")
-    private Boolean facebook = true;
+    private String facebook;
 
     @Column(name = "linkedIn")
     private String linkedIn;
 
     @Column(name = "github")
     private String github;
+
+    @Override
+    public String toString() {
+        return "Instructor{" +
+                super.toString() +
+                "courses=" + courses +
+                ", isEnabled=" + isEnabled +
+                ", photo='" + photo + '\'' +
+                ", profession='" + profession + '\'' +
+                ", origin='" + origin + '\'' +
+                ", phone='" + phone + '\'' +
+                ", brief_Introduction='" + brief_Introduction + '\'' +
+                ", experience='" + experience + '\'' +
+                ", education='" + education + '\'' +
+                ", facebook='" + facebook + '\'' +
+                ", linkedIn='" + linkedIn + '\'' +
+                ", github='" + github + '\'' +
+                '}';
+    }
 }

@@ -1,21 +1,28 @@
 package com.example.elearningspringproject.models;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class CourseRate {
     @EmbeddedId
-    CourseStudentCompositeKey id;
+    private CourseStudentCompositeKey id;
 
     @ManyToOne
     @MapsId("studentId")
     @JoinColumn(name = "student_id")
-    Student student;
+    private Student student;
 
     @ManyToOne
     @MapsId("courseId")
     @JoinColumn(name = "course_id")
-    Course course;
+    private Course course;
 
-    int rating;
+    private int rating;
 }

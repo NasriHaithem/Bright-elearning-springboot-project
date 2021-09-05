@@ -1,25 +1,32 @@
 package com.example.elearningspringproject.models;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class CourseReview {
     @Id
     @GeneratedValue
-    Integer id;
+    private Integer id;
 
     @ManyToOne
     @MapsId("studentId")
     @JoinColumn(name = "student_id")
-    Student student;
+    private Student student;
 
     @ManyToOne
     @MapsId("courseId")
     @JoinColumn(name = "course_id")
-    Course course;
+    private Course course;
 
-    Calendar review_date = new GregorianCalendar();
-    String comment;
+    private Calendar review_date = new GregorianCalendar();
+    private String comment;
 }

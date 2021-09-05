@@ -1,13 +1,21 @@
 package com.example.elearningspringproject.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "courses")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Course {
 
     @Id
@@ -16,24 +24,26 @@ public class Course {
 
     @ManyToOne
     @JoinColumn(name = "idInstructor")
-    Instructor instructor;
+    @JsonIgnoreProperties("courses")
+    private Instructor instructor;
 
     @ManyToOne
     @JoinColumn(name = "idCourseCategory")
-    CourseCategory courseCategory;
+    @JsonIgnoreProperties("courses")
+    private CourseCategory courseCategory;
 
     @OneToMany(mappedBy = "course")
     @JsonIgnoreProperties("course")
-    public List<Module> modules;
+    private List<Module> modules;
 
     @OneToMany(mappedBy = "course")
-    Set<CourseRate> ratings;
+    private List<CourseRate> ratings;
 
     @OneToMany(mappedBy = "course")
-    Set<Enrollment> enrollments;
+    private List<Enrollment> enrollments;
 
     @OneToMany(mappedBy = "course")
-    Set<CourseReview> courseReviews;
+    private List<CourseReview> courseReviews;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -42,20 +52,20 @@ public class Course {
     private Double price;
 
     @Column(name = "overview", nullable = false)
-    private Double overview;
+    private String overview;
 
     @Column(name = "course_image", nullable = false)
-    private Double course_image;
+    private String course_image;
 
     @Column(name = "difficulty", nullable = false)
-    private Double difficulty;
+    private String difficulty;
 
     @Column(name = "date_of_creation", nullable = false)
-    private Double date_of_creation;
+    private Calendar date_of_creation = new GregorianCalendar();
 
     @Column(name = "estimated_duration", nullable = false)
-    private Double estimated_duration;
+    private String estimated_duration;
 
     @Column(name = "introduction_video")
-    private Double introduction_video;
+    private String introduction_video;
 }
