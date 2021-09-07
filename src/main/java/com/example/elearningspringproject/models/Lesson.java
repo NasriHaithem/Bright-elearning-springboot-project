@@ -1,5 +1,6 @@
 package com.example.elearningspringproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
@@ -27,7 +28,11 @@ public class Lesson {
     @Column(name = "lesson_video", nullable = false)
     private String lessonVideo;
 
+    @Column(name = "seen", nullable = false)
+    private Boolean seen = false;
+
     @ManyToOne
     @JoinColumn(name = "idModule")
+    @JsonIgnore
     private Module module;
 }

@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Instructor extends User{
     @OneToMany(mappedBy = "instructor")
-    @JsonIgnoreProperties("instructor")
+    @JsonIgnore
     List<Course> courses;
 
     @Column(name = "is_enabled")

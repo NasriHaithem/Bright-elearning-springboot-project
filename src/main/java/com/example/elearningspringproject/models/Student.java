@@ -1,5 +1,7 @@
 package com.example.elearningspringproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -24,11 +26,14 @@ public class Student extends User{
     private String photo;
 
     @OneToMany(mappedBy = "student")
+    @JsonIgnore
     private List<CourseRate> ratings;
 
     @OneToMany(mappedBy = "student")
+    @JsonIgnore
     private List<Enrollment> enrollments;
 
     @OneToMany(mappedBy = "student")
+    @JsonIgnore
     private List<CourseReview> courseReviews;
 }

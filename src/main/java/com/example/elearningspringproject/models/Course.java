@@ -37,12 +37,15 @@ public class Course {
     private List<Module> modules;
 
     @OneToMany(mappedBy = "course")
+    @JsonIgnoreProperties("course")
     private List<CourseRate> ratings;
 
     @OneToMany(mappedBy = "course")
+    @JsonIgnoreProperties("course")
     private List<Enrollment> enrollments;
 
     @OneToMany(mappedBy = "course")
+    @JsonIgnoreProperties("course")
     private List<CourseReview> courseReviews;
 
     @Column(name = "title", nullable = false)
@@ -68,4 +71,5 @@ public class Course {
 
     @Column(name = "introduction_video")
     private String introduction_video;
+
 }

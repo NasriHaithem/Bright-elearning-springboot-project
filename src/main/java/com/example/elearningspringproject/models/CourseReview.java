@@ -1,5 +1,8 @@
 package com.example.elearningspringproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,13 +21,13 @@ public class CourseReview {
     private Integer id;
 
     @ManyToOne
-    @MapsId("studentId")
     @JoinColumn(name = "student_id")
+    @JsonIgnoreProperties("courseReviews")
     private Student student;
 
     @ManyToOne
-    @MapsId("courseId")
     @JoinColumn(name = "course_id")
+    @JsonIgnoreProperties("courseReviews")
     private Course course;
 
     private Calendar review_date = new GregorianCalendar();
