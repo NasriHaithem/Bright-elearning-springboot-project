@@ -25,9 +25,10 @@ public class Module {
 
     @ManyToOne
     @JoinColumn(name = "idCourse")
-    @JsonIgnore
+    @JsonIgnoreProperties("modules")
     private Course course;
 
     @OneToMany(mappedBy = "module")
+    @JsonIgnoreProperties("module")
     private List<Lesson> lessons;
 }

@@ -33,6 +33,6 @@ public class Lesson {
 
     @ManyToOne
     @JoinColumn(name = "idModule")
-    @JsonIgnore
+    @JsonIgnoreProperties("lessons")
     private Module module;
 }
