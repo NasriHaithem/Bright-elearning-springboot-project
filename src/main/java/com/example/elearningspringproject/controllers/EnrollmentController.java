@@ -16,7 +16,7 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
-@RequestMapping("enrollments")
+@RequestMapping("/enrollments")
 public class EnrollmentController {
     private final EnrollmentRepository enrollmentRepository;
 

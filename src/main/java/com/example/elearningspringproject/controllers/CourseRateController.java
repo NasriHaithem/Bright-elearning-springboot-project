@@ -14,7 +14,7 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
-@RequestMapping("course-rates")
+@RequestMapping("/course-rates")
 public class CourseRateController {
     private final CourseRateRepository courseRateRepository;
 

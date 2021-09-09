@@ -13,7 +13,7 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
-@RequestMapping("categories")
+@RequestMapping("/categories")
 public class CourseCategoryController {
     private final CourseCategoryRepository courseCategoryRepository;
 

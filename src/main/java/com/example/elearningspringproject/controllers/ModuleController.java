@@ -13,7 +13,7 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
-@RequestMapping("modules")
+@RequestMapping("/modules")
 public class ModuleController {
     private final ModuleRepository moduleRepository;
 

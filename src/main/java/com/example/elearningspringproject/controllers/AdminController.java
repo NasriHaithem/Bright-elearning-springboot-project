@@ -17,7 +17,7 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
-@RequestMapping("admins")
+@RequestMapping("/admins")
 public class AdminController {
     private final AdminRepository adminRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -33,6 +33,8 @@ public class AdminController {
         try {
             admin.setPassword(this.bCryptPasswordEncoder.encode(admin.getPassword()));
             Admin savedAdmin = this.adminRepository.save(admin);
+            admin.setRole("admin");
+
             response.put("result", savedAdmin);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }catch (Exception e) {
