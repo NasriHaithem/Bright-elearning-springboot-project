@@ -57,7 +57,7 @@ public class Course {
     @Column(name = "overview", nullable = false)
     private String overview;
 
-    @Column(name = "course_image", nullable = false)
+    @Column(name = "course_image")
     private String course_image;
 
     @Column(name = "difficulty", nullable = false)
@@ -72,4 +72,16 @@ public class Course {
     @Column(name = "introduction_video")
     private String introduction_video;
 
+    public Course(Instructor instructor, CourseCategory courseCategory, String title, Double price, String overview, String course_image, String difficulty, Calendar date_of_creation, String estimated_duration, String introduction_video) {
+        this.instructor = instructor;
+        this.courseCategory = courseCategory;
+        this.title = title;
+        this.price = price;
+        this.overview = overview;
+        this.course_image = course_image;
+        this.difficulty = difficulty;
+        this.date_of_creation = date_of_creation;
+        this.estimated_duration = estimated_duration;
+        this.introduction_video = introduction_video;
+    }
 }

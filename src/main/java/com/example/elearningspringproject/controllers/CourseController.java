@@ -30,14 +30,17 @@ public class CourseController {
     }
 
     @PostMapping("add")
-    public ResponseEntity<HashMap<String, Object>> addCourse(@RequestParam("image") MultipartFile image,
-                                                             @RequestParam("video")MultipartFile video,
-                                                             @RequestParam("course")String courseInfos) {
+    public ResponseEntity<HashMap<String, Object>> addCourse(@RequestParam(value="course_image") MultipartFile image,
+                                                             @RequestParam(value = "introduction_video")MultipartFile video,
+                                                             @RequestParam("course")String courseInfos
+                                                             ) {
         HashMap<String, Object> response = new HashMap<>();
         try {
             long imageUploadDate = new GregorianCalendar().getTimeInMillis();
             long videoUploadDate = new GregorianCalendar().getTimeInMillis();
 
+            System.out.println(image);
+            System.out.println(video.getOriginalFilename());
             //Storing image in our Static folder
             String imageName = String.format("%d%s", imageUploadDate, image.getOriginalFilename());
             Path imageStorage = Paths.get(DIRECTORY, imageName.trim());
@@ -48,9 +51,14 @@ public class CourseController {
             Path videoStorage = Paths.get(DIRECTORY, videoName.trim());
             Files.copy(video.getInputStream(), videoStorage, REPLACE_EXISTING);
 
+            System.out.println("courseInfos");
+            System.out.println(courseInfos);
             //Converting "instructorInfos" string into a Instructor Object
             ObjectMapper mapper = new ObjectMapper();
             Course course = mapper.readValue(courseInfos, Course.class);
+
+            System.out.println("course");
+            System.out.println(course);
 
             course.setCourse_image("http://localhost:8081/" + imageName);
             course.setIntroduction_video("http://localhost:8081/" + videoName);
