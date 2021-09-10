@@ -146,6 +146,7 @@ public class InstructorController {
             Boolean state = instructor.getIsEnabled();
             instructor.setIsEnabled(!state);
 
+            instructorRepository.save(instructor);
             response.put("result", "State updated successfully");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {

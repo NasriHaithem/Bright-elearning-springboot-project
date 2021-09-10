@@ -138,7 +138,7 @@ public class StudentController {
         }
     }
 
-    @PutMapping("updateState/{id}")
+    @PatchMapping("updateState/{id}")
     public ResponseEntity<HashMap<String, Object>> updateInstructorState(@PathVariable Integer id) {
         HashMap<String, Object> response = new HashMap<>();
         try {

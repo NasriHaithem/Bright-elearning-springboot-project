@@ -32,9 +32,9 @@ public class AdminController {
         HashMap<String, Object> response = new HashMap<>();
         try {
             admin.setPassword(this.bCryptPasswordEncoder.encode(admin.getPassword()));
-            Admin savedAdmin = this.adminRepository.save(admin);
             admin.setRole("admin");
 
+            Admin savedAdmin = this.adminRepository.save(admin);
             response.put("result", savedAdmin);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }catch (Exception e) {
