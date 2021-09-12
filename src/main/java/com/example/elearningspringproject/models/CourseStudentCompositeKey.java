@@ -12,7 +12,6 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class CourseStudentCompositeKey implements Serializable {
     @Column(name = "student_id")
     private Integer studentId;
@@ -31,5 +30,13 @@ public class CourseStudentCompositeKey implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(studentId, courseId);
+    }
+
+    @Override
+    public String toString() {
+        return "CourseStudentCompositeKey{" +
+                "studentId=" + studentId +
+                ", courseId=" + courseId +
+                '}';
     }
 }

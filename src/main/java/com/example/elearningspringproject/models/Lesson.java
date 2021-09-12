@@ -13,8 +13,19 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Lesson {
+    @Override
+    public String toString() {
+        return "Lesson{" +
+                "id=" + id +
+                ", lessonName='" + lessonName + '\'' +
+                ", description='" + description + '\'' +
+                ", lessonVideo='" + lessonVideo + '\'' +
+                ", seen=" + seen +
+                ", module=" + module +
+                '}';
+    }
+
     @Id
     @GeneratedValue
     private Integer id;

@@ -11,21 +11,30 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class CourseRate {
+    @Override
+    public String toString() {
+        return "CourseRate{" +
+                "id=" + id +
+                ", student=" + student +
+                ", course=" + course +
+                ", rating=" + rating +
+                '}';
+    }
+
     @EmbeddedId
     private CourseStudentCompositeKey id;
 
     @ManyToOne
     @MapsId("studentId")
     @JoinColumn(name = "student_id")
-    @JsonIgnoreProperties("ratings")
+    @JsonIgnoreProperties({"courseReviews", "enrollments", "ratings", "modules"})
     private Student student;
 
     @ManyToOne
     @MapsId("courseId")
     @JoinColumn(name = "course_id")
-    @JsonIgnoreProperties("ratings")
+    @JsonIgnoreProperties({"courseReviews", "enrollments", "ratings", "modules"})
     private Course course;
 
     private int rating;

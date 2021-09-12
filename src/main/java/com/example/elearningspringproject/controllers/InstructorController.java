@@ -33,25 +33,31 @@ public class InstructorController {
         this.instructorRepository = instructorRepository;
     }
 
-    @PostMapping("register")
+    @PutMapping("update")
     public ResponseEntity<HashMap<String, Object>> addInstructor(@RequestParam("image") MultipartFile image,
-                                                                 @RequestParam("instructor") String instructorInfos) {
+                                                              @RequestParam("instructor")String instructorInfos) {
         HashMap<String, Object> response = new HashMap<>();
         try {
-            //Storing file in our Static folder
-            long imageUploadDate = new GregorianCalendar().getTimeInMillis();
-            String filename = String.format("%d%s", imageUploadDate, image.getOriginalFilename());
-            Path imageStorage = Paths.get(DIRECTORY, filename.trim());
-            Files.copy(image.getInputStream(), imageStorage, REPLACE_EXISTING);
-
             //Converting "instructorInfos" string into a Instructor Object
             ObjectMapper mapper = new ObjectMapper();
             Instructor instructor = mapper.readValue(instructorInfos, Instructor.class);
 
+            //check if instructor exist, else findById returns an exception
+            instructorRepository.findById(instructor.getId())
+                    .orElseThrow( () -> new IllegalStateException("instructor  not found") );
+
+            //Storing file in our Static folder
+            long imageUploadDate = new GregorianCalendar().getTimeInMillis();
+            String filename = String.format("%d%s", imageUploadDate, image.getOriginalFilename());
+
+            Path imageStorage = Paths.get(DIRECTORY, filename.trim());
+            Files.copy(image.getInputStream(), imageStorage, REPLACE_EXISTING);
+
 
             instructor.setPhoto("http://localhost:8081/" + filename);
-            instructor.setPassword(this.bCryptPasswordEncoder.encode(instructor.getPassword()));
-            instructor.setRole("instructor");
+            if (instructor.getPassword() != null) {
+                instructor.setPassword(this.bCryptPasswordEncoder.encode(instructor.getPassword()));
+            }
 
             Instructor savedInstructor = this.instructorRepository.save(instructor);
             response.put("result", savedInstructor);
@@ -118,13 +124,13 @@ public class InstructorController {
 
     }
 
-    @PutMapping("update")
+    @PostMapping("register")
     public ResponseEntity<HashMap<String, Object>> updateInstructor(@RequestBody Instructor instructor) {
         HashMap<String, Object> response = new HashMap<>();
         try {
-            //check if instructor exist, else findById returns an exception
-            instructorRepository.findById(instructor.getId());
             instructor.setPassword(this.bCryptPasswordEncoder.encode(instructor.getPassword()));
+            instructor.setRole("instructor");
+
             Instructor instructorToUpdate= this.instructorRepository.save(instructor);
             response.put("result", instructorToUpdate);
             return ResponseEntity.status(HttpStatus.OK).body(response);

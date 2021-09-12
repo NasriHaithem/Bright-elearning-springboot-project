@@ -17,7 +17,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Student extends User{
     @Column(name = "is_enabled")
     private Boolean isEnabled = true;
@@ -26,14 +25,25 @@ public class Student extends User{
     private String photo;
 
     @OneToMany(mappedBy = "student")
-    @JsonIgnore
+    @JsonIgnoreProperties("student")
     private List<CourseRate> ratings;
 
     @OneToMany(mappedBy = "student")
-    @JsonIgnore
+    @JsonIgnoreProperties("student")
     private List<Enrollment> enrollments;
 
     @OneToMany(mappedBy = "student")
-    @JsonIgnore
+    @JsonIgnoreProperties("student")
     private List<CourseReview> courseReviews;
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "isEnabled=" + isEnabled +
+                ", photo='" + photo + '\'' +
+                ", ratings=" + ratings +
+                ", enrollments=" + enrollments +
+                ", courseReviews=" + courseReviews +
+                '}';
+    }
 }

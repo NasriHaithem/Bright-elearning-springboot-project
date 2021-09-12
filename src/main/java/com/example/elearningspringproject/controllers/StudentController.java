@@ -17,10 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
@@ -37,11 +34,19 @@ public class StudentController {
         this.studentRepository = studentRepository;
     }
 
-    @PostMapping("register")
+    @PutMapping("update")
     public ResponseEntity<HashMap<String, Object>> addStudent(@RequestParam("image") MultipartFile image,
                                                               @RequestParam("student")String studentInfos) {
         HashMap<String, Object> response = new HashMap<>();
         try {
+            //Converting "studentInfos" string into a Student Object
+            ObjectMapper mapper = new ObjectMapper();
+            Student student = mapper.readValue(studentInfos, Student.class);
+
+            //check if student exist, else findById returns an exception
+            studentRepository.findById(student.getId())
+                    .orElseThrow( () -> new IllegalStateException("student  not found") );
+
             //Storing file in our Static folder
             long imageUploadDate = new GregorianCalendar().getTimeInMillis();
             String filename = String.format("%d%s", imageUploadDate, image.getOriginalFilename());
@@ -49,13 +54,11 @@ public class StudentController {
             Path imageStorage = Paths.get(DIRECTORY, filename.trim());
             Files.copy(image.getInputStream(), imageStorage, REPLACE_EXISTING);
 
-            //Converting "studentInfos" string into a Student Object
-            ObjectMapper mapper = new ObjectMapper();
-            Student student = mapper.readValue(studentInfos, Student.class);
 
             student.setPhoto("http://localhost:8081/" + filename);
-            student.setPassword(this.bCryptPasswordEncoder.encode(student.getPassword()));
-            student.setRole("student");
+            if (student.getPassword() != null) {
+                student.setPassword(this.bCryptPasswordEncoder.encode(student.getPassword()));
+            }
 
             Student savedStudent = this.studentRepository.save(student);
             response.put("result", savedStudent);
@@ -89,13 +92,13 @@ public class StudentController {
                     response.put("message", "student not allowed !");
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
                 } else {
+                    Optional<Student> studentToSend = this.studentRepository.findById(studentFromDB.getId());
                     String token = Jwts.builder()
-                            .claim("data", studentFromDB)
+                            .claim("data", studentToSend.get())
                             .signWith(SignatureAlgorithm.HS256, "SECRET")
                             .compact();
 
                     response.put("token", token);
-
                     return ResponseEntity.status(HttpStatus.OK).body(response);
                 }
             }
@@ -122,13 +125,13 @@ public class StudentController {
 
     }
 
-    @PutMapping("update")
+    @PostMapping("register")
     public ResponseEntity<HashMap<String, Object>> updateStudent(@RequestBody Student student) {
         HashMap<String, Object> response = new HashMap<>();
         try {
-            //check if student exist, else findById returns an exception
-            studentRepository.findById(student.getId());
             student.setPassword(this.bCryptPasswordEncoder.encode(student.getPassword()));
+            student.setRole("student");
+
             Student studentToUpdate= this.studentRepository.save(student);
             response.put("result", studentToUpdate);
             return ResponseEntity.status(HttpStatus.OK).body(response);

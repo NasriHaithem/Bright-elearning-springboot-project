@@ -15,7 +15,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Course {
 
     @Id
@@ -41,7 +40,6 @@ public class Course {
     private List<CourseRate> ratings;
 
     @OneToMany(mappedBy = "course")
-    @JsonIgnoreProperties("course")
     private List<Enrollment> enrollments;
 
     @OneToMany(mappedBy = "course")
@@ -72,6 +70,7 @@ public class Course {
     @Column(name = "introduction_video")
     private String introduction_video;
 
+
     public Course(Instructor instructor, CourseCategory courseCategory, String title, Double price, String overview, String course_image, String difficulty, Calendar date_of_creation, String estimated_duration, String introduction_video) {
         this.instructor = instructor;
         this.courseCategory = courseCategory;
@@ -83,5 +82,26 @@ public class Course {
         this.date_of_creation = date_of_creation;
         this.estimated_duration = estimated_duration;
         this.introduction_video = introduction_video;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", instructor=" + instructor +
+                ", courseCategory=" + courseCategory +
+                ", modules=" + modules +
+                ", ratings=" + ratings +
+                ", enrollments=" + enrollments +
+                ", courseReviews=" + courseReviews +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", overview='" + overview + '\'' +
+                ", course_image='" + course_image + '\'' +
+                ", difficulty='" + difficulty + '\'' +
+                ", date_of_creation=" + date_of_creation +
+                ", estimated_duration='" + estimated_duration + '\'' +
+                ", introduction_video='" + introduction_video + '\'' +
+                '}';
     }
 }

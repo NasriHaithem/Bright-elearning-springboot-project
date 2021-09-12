@@ -14,20 +14,30 @@ import java.util.GregorianCalendar;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class CourseReview {
+    @Override
+    public String toString() {
+        return "CourseReview{" +
+                "id=" + id +
+                ", student=" + student +
+                ", course=" + course +
+                ", review_date=" + review_date +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
+
     @Id
     @GeneratedValue
     private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
-    @JsonIgnoreProperties("courseReviews")
+    @JsonIgnoreProperties({"courseReviews", "enrollments", "ratings"})
     private Student student;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
-    @JsonIgnoreProperties("courseReviews")
+    @JsonIgnoreProperties({"courseReviews", "enrollments", "ratings", "modules"})
     private Course course;
 
     private Calendar review_date = new GregorianCalendar();

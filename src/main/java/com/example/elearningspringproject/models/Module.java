@@ -14,7 +14,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Module {
     @Id
     @GeneratedValue
@@ -25,10 +24,20 @@ public class Module {
 
     @ManyToOne
     @JoinColumn(name = "idCourse")
-    @JsonIgnoreProperties("modules")
+    @JsonIgnoreProperties({"courseReviews", "enrollments", "ratings", "modules"})
     private Course course;
 
     @OneToMany(mappedBy = "module")
     @JsonIgnoreProperties("module")
     private List<Lesson> lessons;
+
+    @Override
+    public String toString() {
+        return "Module{" +
+                "id=" + id +
+                ", moduleName='" + moduleName + '\'' +
+                ", course=" + course +
+                ", lessons=" + lessons +
+                '}';
+    }
 }

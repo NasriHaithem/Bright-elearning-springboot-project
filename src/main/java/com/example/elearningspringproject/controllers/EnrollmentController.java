@@ -50,15 +50,16 @@ public class EnrollmentController {
     public ResponseEntity<HashMap<String, Object>> findEnrollmentById(@PathVariable Integer studentId, @PathVariable Integer courseId) {
         HashMap<String, Object> response = new HashMap<>();
         try {
-
             Enrollment enrollment = this.enrollmentRepository.findById(new CourseStudentCompositeKey(studentId, courseId))
                     .orElseThrow(() -> new IllegalStateException(
                             "enrollment with composite id: (studentId: " + studentId + ", courseId:"+ courseId + ") not found"));
             response.put("result", enrollment);
+            response.put("success", true);
             return ResponseEntity.status(HttpStatus.OK).body(response);
 
         }catch (IllegalStateException e) {
             response.put("error", e.toString());
+            response.put("success", false);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
@@ -90,6 +91,4 @@ public class EnrollmentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
-
-
 }

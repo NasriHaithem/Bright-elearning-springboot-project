@@ -13,7 +13,6 @@ import java.util.GregorianCalendar;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Enrollment {
     @EmbeddedId
     private CourseStudentCompositeKey id;
@@ -21,15 +20,26 @@ public class Enrollment {
     @ManyToOne
     @MapsId("studentId")
     @JoinColumn(name = "student_id")
-    @JsonIgnoreProperties("enrollments")
+    @JsonIgnoreProperties({"courseReviews", "enrollments", "ratings", "modules"})
     private Student student;
 
     @ManyToOne
     @MapsId("courseId")
     @JoinColumn(name = "course_id")
-    @JsonIgnoreProperties("enrollments")
+    @JsonIgnoreProperties({"courseReviews", "enrollments", "ratings", "modules"})
     private Course course;
 
     private Calendar enrollment_date = new GregorianCalendar();
     private float progress = 0;
+
+    @Override
+    public String toString() {
+        return "Enrollment{" +
+                "id=" + id +
+                ", student=" + student +
+                ", course=" + course +
+                ", enrollment_date=" + enrollment_date +
+                ", progress=" + progress +
+                '}';
+    }
 }
